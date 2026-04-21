@@ -12,8 +12,8 @@
         force all clients to refresh.
 */
 
-const CACHE_VERSION = 'playverse-v1';
-const RUNTIME_CACHE = 'playverse-runtime-v1';
+const CACHE_VERSION = 'playverse-v2';
+const RUNTIME_CACHE = 'playverse-runtime-v2';
 
 // Files to pre-cache on install (the app shell)
 const SHELL_FILES = [
@@ -24,7 +24,8 @@ const SHELL_FILES = [
   './icon-192.png',
   './icon-512.png',
   './icon-192-maskable.png',
-  './icon-512-maskable.png'
+  './icon-512-maskable.png',
+  './cover-island.jpg'
 ];
 
 // --- install: pre-cache shell ---

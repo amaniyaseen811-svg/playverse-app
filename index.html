@@ -190,7 +190,6 @@
     display:block;
     text-decoration:none;
     color:inherit;
-    padding:18px 18px 16px;
     border-radius:22px;
     background:
       linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,0) 60%),
@@ -200,6 +199,39 @@
     cursor:pointer;
     transition:transform .25s ease, border-color .25s ease, background .25s ease;
     isolation:isolate;
+  }
+  .card-body{padding:16px 18px 16px}
+
+  /* Cover image area */
+  .cover{
+    position:relative;
+    aspect-ratio:16/10;
+    overflow:hidden;
+    background:#0a0420;
+  }
+  .cover img{
+    width:100%;height:100%;
+    object-fit:cover;
+    object-position:center 30%;
+    display:block;
+    transition:transform .45s ease;
+  }
+  .card:hover .cover img,.card:active .cover img{transform:scale(1.04)}
+  .cover::after{
+    /* gentle bottom gradient so title remains legible */
+    content:"";
+    position:absolute;left:0;right:0;bottom:0;height:45%;
+    background:linear-gradient(180deg, transparent, rgba(5,0,16,.75));
+    pointer-events:none;
+  }
+  .cover-title{
+    position:absolute;
+    right:14px;bottom:10px;
+    font-family:'Tajawal',sans-serif;
+    font-weight:900;
+    font-size:1.3rem;
+    text-shadow:0 2px 16px rgba(0,0,0,.8);
+    z-index:1;
   }
   .card::before{
     content:"";
@@ -350,33 +382,34 @@
       <!-- ISLAND GAME -->
       <a href="island.html" class="card reveal d2"
          style="--card-glow:linear-gradient(135deg,#00c2ff,#14e672);
-                --emoji-bg:linear-gradient(135deg,rgba(0,194,255,.25),rgba(20,230,114,.18));
                 --play-bg:linear-gradient(135deg,#00c2ff,#14e672)">
-        <div class="card-top">
-          <div class="emoji">🏝️</div>
-          <div>
-            <h3>الجزيرة المسحورة</h3>
-          </div>
+        <div class="cover">
+          <img src="cover-island.jpg" alt="الجزيرة المسحورة">
+          <div class="cover-title">🏝️ الجزيرة المسحورة</div>
         </div>
-        <p>مغامرة سليمان البحّار في جزيرة غامضة — تعلّم الخلية النباتية عبر الاستكشاف.</p>
-        <div class="card-foot">
-          <span class="tag">أحياء · الخلية النباتية</span>
-          <span class="play">ابدأ</span>
+        <div class="card-body">
+          <p>مغامرة سليمان البحّار في جزيرة غامضة — تعلّم الخلية النباتية عبر الاستكشاف.</p>
+          <div class="card-foot">
+            <span class="tag">أحياء · الخلية النباتية</span>
+            <span class="play">ابدأ</span>
+          </div>
         </div>
       </a>
 
       <!-- COMING SOON placeholder -->
       <div class="card soon reveal d3">
-        <div class="card-top">
-          <div class="emoji">✨</div>
-          <div>
-            <h3>ألعاب جديدة قادمة</h3>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="emoji">✨</div>
+            <div>
+              <h3>ألعاب جديدة قادمة</h3>
+            </div>
           </div>
-        </div>
-        <p>السنافر، القصر الملعون، لغز مخطط القفل، علاء الدين، كونان — قريباً على PlayVerse.</p>
-        <div class="card-foot">
-          <span class="tag">قيد الإعداد</span>
-          <span class="play">قريباً</span>
+          <p>السنافر، القصر الملعون، لغز مخطط القفل، علاء الدين، كونان — قريباً على PlayVerse.</p>
+          <div class="card-foot">
+            <span class="tag">قيد الإعداد</span>
+            <span class="play">قريباً</span>
+          </div>
         </div>
       </div>
 
