@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>PlayVerse — تعلّم • العب • نافس</title>
+
+<!-- PWA wiring -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#050010">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="PlayVerse">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+
+<!-- Arabic display font -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=Rakkas&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#050010;
+    --bg-2:#0a0420;
+    --ink:#ffffff;
+    --muted:rgba(255,255,255,.62);
+    --accent-1:#ff2b9d;  /* pink */
+    --accent-2:#ff7a00;  /* orange */
+    --accent-3:#ffd300;  /* yellow */
+    --accent-4:#14e672;  /* green */
+    --accent-5:#00c2ff;  /* cyan */
+    --accent-6:#7b5bff;  /* purple */
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+
+  html,body{height:100%;overflow-x:hidden}
+  body{
+    font-family:'Tajawal',system-ui,-apple-system,Arial,sans-serif;
+    color:var(--ink);
+    background:var(--bg);
+    direction:rtl;
+    min-height:100vh;
+    min-height:100dvh;
+    padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    position:relative;
+    overflow-x:hidden;
+  }
+
+  /* Cosmic gradient atmosphere */
+  body::before{
+    content:"";
+    position:fixed;inset:0;
+    background:
+      radial-gradient(60% 40% at 15% 10%, rgba(255,43,157,.35), transparent 70%),
+      radial-gradient(50% 35% at 85% 20%, rgba(0,194,255,.30), transparent 70%),
+      radial-gradient(55% 40% at 50% 100%, rgba(20,230,114,.25), transparent 70%),
+      radial-gradient(45% 30% at 90% 80%, rgba(123,91,255,.28), transparent 70%),
+      linear-gradient(180deg,#050010 0%, #0a0420 50%, #050010 100%);
+    filter:saturate(1.1);
+    z-index:-2;
+    pointer-events:none;
+  }
+
+  /* Floating stars (decorative) */
+  body::after{
+    content:"";
+    position:fixed;inset:0;
+    background-image:
+      radial-gradient(1.5px 1.5px at 10% 20%, #fff, transparent),
+      radial-gradient(1px 1px at 30% 60%, #fff, transparent),
+      radial-gradient(1.2px 1.2px at 70% 30%, #fff, transparent),
+      radial-gradient(1px 1px at 85% 75%, #fff, transparent),
+      radial-gradient(1.5px 1.5px at 50% 85%, #fff, transparent),
+      radial-gradient(1px 1px at 20% 90%, #fff, transparent),
+      radial-gradient(1.2px 1.2px at 60% 10%, #fff, transparent),
+      radial-gradient(1px 1px at 90% 50%, #fff, transparent);
+    opacity:.5;
+    animation:twinkle 6s ease-in-out infinite alternate;
+    z-index:-1;
+    pointer-events:none;
+  }
+  @keyframes twinkle{from{opacity:.3}to{opacity:.7}}
+
+  .wrap{
+    max-width:900px;
+    margin:0 auto;
+    padding:28px 20px 40px;
+  }
+
+  /* ====== HERO ====== */
+  .hero{text-align:center;padding:18px 6px 28px}
+  .logo-frame{
+    width:min(78vw,320px);
+    aspect-ratio:1/1;
+    margin:0 auto 14px;
+    position:relative;
+    border-radius:28px;
+    overflow:hidden;
+    background:
+      conic-gradient(from 0deg,
+        #ff2b9d, #ff7a00, #ffd300, #14e672, #00c2ff, #7b5bff, #ff2b9d);
+    padding:3px;
+    animation:spin 12s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .logo-frame::before{
+    content:"";
+    position:absolute;inset:3px;
+    border-radius:25px;
+    background:#050010;
+    z-index:1;
+  }
+  .logo-frame img{
+    position:relative;
+    z-index:2;
+    width:calc(100% - 6px);
+    height:calc(100% - 6px);
+    margin:3px;
+    border-radius:25px;
+    object-fit:cover;
+    animation:spin 12s linear infinite reverse; /* counter-rotate so logo stays still */
+  }
+
+  .tagline{
+    font-family:'Tajawal',sans-serif;
+    font-weight:900;
+    font-size:clamp(1.4rem,5.5vw,2rem);
+    letter-spacing:.02em;
+    margin-top:6px;
+    background:linear-gradient(90deg,
+      var(--accent-1), var(--accent-2), var(--accent-3),
+      var(--accent-4), var(--accent-5), var(--accent-6));
+    background-size:250% 100%;
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    animation:shimmer 6s linear infinite;
+  }
+  @keyframes shimmer{to{background-position:-250% 0}}
+
+  .sub{
+    color:var(--muted);
+    font-size:clamp(.9rem,3.5vw,1.05rem);
+    margin-top:6px;
+    font-weight:500;
+  }
+
+  /* ====== SECTION HEADER ====== */
+  .section-head{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin:26px 4px 16px;
+    padding:0 4px;
+  }
+  .section-head h2{
+    font-family:'Tajawal',sans-serif;
+    font-weight:800;
+    font-size:1.25rem;
+    letter-spacing:.01em;
+  }
+  .section-head .line{
+    flex:1;height:1px;
+    background:linear-gradient(90deg,rgba(255,255,255,.25),transparent);
+  }
+  .count-pill{
+    font-size:.78rem;
+    font-weight:700;
+    padding:4px 10px;
+    border-radius:999px;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.12);
+    color:var(--muted);
+  }
+
+  /* ====== GAME GRID ====== */
+  .grid{
+    display:grid;
+    gap:14px;
+    grid-template-columns:1fr;
+  }
+  @media (min-width:560px){ .grid{grid-template-columns:1fr 1fr} }
+
+  /* Game card */
+  .card{
+    position:relative;
+    display:block;
+    text-decoration:none;
+    color:inherit;
+    padding:18px 18px 16px;
+    border-radius:22px;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,0) 60%),
+      rgba(255,255,255,.03);
+    border:1px solid rgba(255,255,255,.09);
+    overflow:hidden;
+    cursor:pointer;
+    transition:transform .25s ease, border-color .25s ease, background .25s ease;
+    isolation:isolate;
+  }
+  .card::before{
+    content:"";
+    position:absolute;inset:-1px;
+    border-radius:inherit;
+    padding:1px;
+    background:var(--card-glow, linear-gradient(135deg,var(--accent-1),var(--accent-5)));
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;
+            mask-composite:exclude;
+    opacity:0;
+    transition:opacity .25s ease;
+    pointer-events:none;
+  }
+  .card:hover,.card:active{
+    transform:translateY(-2px);
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,0) 60%),
+      rgba(255,255,255,.04);
+  }
+  .card:hover::before,.card:active::before{opacity:1}
+
+  .card-top{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:10px;
+  }
+  .emoji{
+    width:54px;height:54px;
+    display:grid;place-items:center;
+    border-radius:16px;
+    font-size:1.9rem;
+    background:var(--emoji-bg, rgba(255,255,255,.06));
+    border:1px solid rgba(255,255,255,.08);
+    flex-shrink:0;
+  }
+  .card h3{
+    font-family:'Tajawal',sans-serif;
+    font-weight:800;
+    font-size:1.15rem;
+    line-height:1.3;
+  }
+  .card p{
+    color:var(--muted);
+    font-size:.92rem;
+    line-height:1.6;
+    min-height:2.9em;
+  }
+  .card-foot{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-top:14px;
+  }
+  .tag{
+    font-size:.72rem;
+    font-weight:700;
+    padding:4px 10px;
+    border-radius:999px;
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.08);
+    color:var(--muted);
+  }
+  .play{
+    font-family:'Tajawal',sans-serif;
+    font-size:.9rem;
+    font-weight:800;
+    color:#050010;
+    padding:8px 14px;
+    border-radius:999px;
+    background:var(--play-bg, linear-gradient(135deg,var(--accent-3),var(--accent-2)));
+    box-shadow:0 4px 14px rgba(255,122,0,.35);
+  }
+  .play::after{content:" ←";font-weight:900}
+
+  /* Coming-soon card */
+  .card.soon{opacity:.55;cursor:default}
+  .card.soon:hover{transform:none;background:rgba(255,255,255,.03)}
+  .card.soon::before{display:none}
+  .card.soon .play{
+    background:rgba(255,255,255,.08);
+    color:var(--muted);
+    box-shadow:none;
+  }
+  .card.soon .play::after{content:""}
+
+  /* ====== FOOTER ====== */
+  footer{
+    margin-top:34px;
+    text-align:center;
+    color:var(--muted);
+    font-size:.82rem;
+    line-height:1.8;
+    padding:14px 8px;
+  }
+  footer strong{color:var(--ink);font-weight:700}
+
+  /* Entrance animation */
+  .reveal{opacity:0;transform:translateY(10px);animation:rise .6s .05s forwards cubic-bezier(.22,1,.36,1)}
+  .reveal.d1{animation-delay:.15s}
+  .reveal.d2{animation-delay:.25s}
+  .reveal.d3{animation-delay:.35s}
+  .reveal.d4{animation-delay:.45s}
+  @keyframes rise{to{opacity:1;transform:none}}
+
+  /* Offline banner */
+  .offline{
+    display:none;
+    position:fixed;
+    bottom:14px;left:50%;
+    transform:translateX(-50%);
+    padding:10px 18px;
+    border-radius:999px;
+    background:rgba(255,211,0,.15);
+    border:1px solid rgba(255,211,0,.35);
+    color:#ffd300;
+    font-size:.85rem;
+    font-weight:700;
+    z-index:9;
+    backdrop-filter:blur(8px);
+  }
+  body.is-offline .offline{display:block}
+</style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <!-- HERO -->
+    <header class="hero reveal">
+      <div class="logo-frame">
+        <img src="icon-512.png" alt="PlayVerse">
+      </div>
+      <div class="tagline">تعلّم • العب • نافس</div>
+      <div class="sub">منصّة الألعاب التعليمية للصف التاسع</div>
+    </header>
+
+    <!-- GAMES SECTION -->
+    <div class="section-head reveal d1">
+      <h2>🎮 الألعاب المتاحة</h2>
+      <span class="line"></span>
+      <span class="count-pill" id="count">1</span>
+    </div>
+
+    <main class="grid">
+
+      <!-- ISLAND GAME -->
+      <a href="island.html" class="card reveal d2"
+         style="--card-glow:linear-gradient(135deg,#00c2ff,#14e672);
+                --emoji-bg:linear-gradient(135deg,rgba(0,194,255,.25),rgba(20,230,114,.18));
+                --play-bg:linear-gradient(135deg,#00c2ff,#14e672)">
+        <div class="card-top">
+          <div class="emoji">🏝️</div>
+          <div>
+            <h3>الجزيرة المسحورة</h3>
+          </div>
+        </div>
+        <p>مغامرة سليمان البحّار في جزيرة غامضة — تعلّم الخلية النباتية عبر الاستكشاف.</p>
+        <div class="card-foot">
+          <span class="tag">أحياء · الخلية النباتية</span>
+          <span class="play">ابدأ</span>
+        </div>
+      </a>
+
+      <!-- COMING SOON placeholder -->
+      <div class="card soon reveal d3">
+        <div class="card-top">
+          <div class="emoji">✨</div>
+          <div>
+            <h3>ألعاب جديدة قادمة</h3>
+          </div>
+        </div>
+        <p>السنافر، القصر الملعون، لغز مخطط القفل، علاء الدين، كونان — قريباً على PlayVerse.</p>
+        <div class="card-foot">
+          <span class="tag">قيد الإعداد</span>
+          <span class="play">قريباً</span>
+        </div>
+      </div>
+
+    </main>
+
+    <footer class="reveal d4">
+      تصميم وتطوير: <strong>د. أماني ياسين</strong><br>
+      PlayVerse · <span style="opacity:.7">جميع الحقوق محفوظة</span>
+    </footer>
+
+  </div>
+
+  <div class="offline">📴 أنت الآن دون إنترنت — الألعاب تعمل بشكل كامل</div>
+
+<script>
+  // Offline detector
+  function updateOnline(){
+    document.body.classList.toggle('is-offline', !navigator.onLine);
+  }
+  window.addEventListener('online', updateOnline);
+  window.addEventListener('offline', updateOnline);
+  updateOnline();
+
+  // iOS standalone fix: ensure in-app navigation stays inside standalone PWA
+  // (Without this, tapping a link may bounce out to Safari on iOS)
+  if (('standalone' in navigator) && navigator.standalone) {
+    document.querySelectorAll('a[href]').forEach(a=>{
+      a.addEventListener('click', function(e){
+        var href = this.getAttribute('href');
+        if (href && !href.startsWith('http') && !href.startsWith('#')) {
+          e.preventDefault();
+          location.href = href;
+        }
+      });
+    });
+  }
+
+  // Register service worker
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function(){
+      navigator.serviceWorker.register('service-worker.js')
+        .then(function(reg){ console.log('SW registered:', reg.scope); })
+        .catch(function(err){ console.log('SW failed:', err); });
+    });
+  }
+</script>
+</body>
+</html>
