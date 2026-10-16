@@ -12,8 +12,8 @@
         force all clients to refresh.
 */
 
-const CACHE_VERSION = 'playverse-v2';
-const RUNTIME_CACHE = 'playverse-runtime-v2';
+const CACHE_VERSION = 'playverse-v5';
+const RUNTIME_CACHE = 'playverse-runtime-v5';
 
 // Files to pre-cache on install (the app shell)
 const SHELL_FILES = [
@@ -25,7 +25,12 @@ const SHELL_FILES = [
   './icon-512.png',
   './icon-192-maskable.png',
   './icon-512-maskable.png',
-  './cover-island.jpg'
+  // ألعاب نُونا وسالي — تتحمّل كاملة من أول مرة حتى تشتغل بدون إنترنت
+  './pvkit.js', './universal-game-system.js',
+  './noona.html', './noona-translations.js', './noona-cover.jpg', './noona-intro.mp4', './noona-music.mp3',
+  './noona-cover1.mp4', './noona-cover2.mp4', './noona-cover3.mp4',
+  './sally.html', './sally-translations.js', './sally_intro.mp4',
+  './sally-cover-1.mp4', './sally-cover-2.mp4', './sally-cover-3.mp4', './sally-cover-4.mp4'
 ];
 
 // --- install: pre-cache shell ---
